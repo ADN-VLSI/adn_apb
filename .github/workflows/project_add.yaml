@@ -16,4 +16,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ADN_SECRET_FOEZ_PAT }}
         run: |
-          gh issue edit ${{ github.event.issue.number }} --repo ${{ github.repository }} --add-project "2"
+          gh issue edit ${{ github.event.issue.number }} --repo ${{ github.repository }} --add-project "projects"
