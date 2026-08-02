@@ -1,4 +1,4 @@
-${ADN_ENDEC}/interface/dummy_interface.sv
-${ADN_ENDEC}/source/dummy_rtl.sv
+${ADN_APB}/interface/dummy_interface.sv
+${ADN_APB}/source/dummy_rtl.sv
+-i ${ADN_APB}/include
 -i ${ADN_COMMON}/include
--i ${ADN_ENDEC}/include
