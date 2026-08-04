@@ -1,3 +1,4 @@
+${ADN_APB}/interface/apb_memif.sv
 ${ADN_APB}/interface/dummy_interface.sv
 ${ADN_APB}/source/dummy_rtl.sv
 -i ${ADN_APB}/include
