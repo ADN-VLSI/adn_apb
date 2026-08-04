@@ -1,8 +1,9 @@
 /*
 
-@foez-bhai, write the purpose of this file in markdown format here. This is already in multi-line comment, so don't add any additional comment syntax.
+# Purpose
+This file defines SystemVerilog macros for generating APB (Advanced Peripheral Bus) request and response structures, ensuring consistent interface definitions across the ADN-VLSI/adn_apb project.
 
-@foez-bhai, describe the use case of this file in markdown format here. This is already in multi-line comment, so don't add any additional comment syntax.
+This file serves as a centralized header for generating standardized APB interface structures. By utilizing parameterized macros, it allows hardware designers to instantiate custom-width APB request and response types dynamically, reducing boilerplate code and ensuring strict adherence to the APB protocol specifications across the design hierarchy.
 
 | REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
 |----------|------------|-----------------|--------------------------------------------------------|
@@ -19,7 +20,9 @@ See LICENSE file in the project root for full license information
 `ifndef __GUARD_APB_TYPEDEF_SVH__
 `define __GUARD_APB_TYPEDEF_SVH__ 0
 
-// @foez-bhai, add comments here about the purpose and usecase of this macro
+// Macro: APB_REQ_T
+// Purpose: Generates a packed struct for an APB request interface.
+// Usecase: Use this to define the master-to-slave request signals with configurable address and data widths.
 `define APB_REQ_T(__NM__, __AW__, __DW__)        \
   typedef struct packed {                        \
     logic                    psel;               \
@@ -30,9 +33,6 @@ See LICENSE file in the project root for full license information
     logic [  ``__DW__``-1:0] pwdata;             \
     logic [``__DW__``/8-1:0] pstrb;              \
 } ``__NM__``_req_t;                              \
-
-
-// @foez-bhai, add comments here about the purpose and usecase of this macro
 `define APB_RESP_T(__NM__, __DW__)               \
   typedef struct packed {                        \
     logic                    pready;             \
@@ -41,7 +41,9 @@ See LICENSE file in the project root for full license information
 } ``__NM__``_resp_t;                             \
 
 
-// @foez-bhai, add comments here about the purpose and usecase of this macro
+// Macro: APB_T
+// Purpose: Generates both request and response packed structs for an APB interface.
+// Usecase: Use this to instantiate a complete APB interface pair (req/resp) with a single macro call, ensuring consistency across the design.
 `define APB_T(__NM__, __AW__, __DW__)            \
   `APB_REQ_T(``__NM__``, ``__AW__``, ``__DW__``) \
   `APB_RESP_T(``__NM__``, ``__DW__``)            \
