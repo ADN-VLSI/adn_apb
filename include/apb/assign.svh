@@ -35,6 +35,10 @@ See LICENSE file in the project root for full license information
   ``__MT__`` ``__M__``.pready  ``__AS__`` {'0, ``__S__``.pready};     \
   ``__MT__`` ``__M__``.prdata  ``__AS__`` {'0, ``__S__``.prdata};     \
   ``__MT__`` ``__M__``.pslverr ``__AS__`` {'0, ``__S__``.pslverr};    \
+
+
+// Purpose: Performs a combinational assignment for APB signals.
+// Usecase: Typically used in continuous assignment contexts where the APB signals need to reflect the current state of the master and slave interfaces without any delay.
 `define APB_COMB_ASSIGN(__M__, __S__)                                 \
   `APB_COMMUNICATION(``__M__``, ``__S__``, always_comb, =)            \
 
@@ -43,6 +47,10 @@ See LICENSE file in the project root for full license information
 // Usecase: Typically used within procedural blocks (initial/always) for sequential logic or testbench stimulus where immediate signal updates are required.
 `define APB_BLOCKING_ASSIGN(__M__, __S__)                             \
   `APB_COMMUNICATION(``__M__``, ``__S__``, , =)                       \
+
+
+// Purpose: Performs a non-blocking assignment for APB signals.
+// Usecase: Typically used within procedural blocks (always_ff) for sequential logic where signal updates should occur at the end of the time step, allowing for proper simulation of clocked behavior.
 `define APB_NONBLOCKING_ASSIGN(__M__, __S__)                          \
   `APB_COMMUNICATION(``__M__``, ``__S__``, , <=)                      \
 

@@ -32,13 +32,18 @@ See LICENSE file in the project root for full license information
     logic                    pwrite;             \
     logic [  ``__DW__``-1:0] pwdata;             \
     logic [``__DW__``/8-1:0] pstrb;              \
-} ``__NM__``_req_t;                              \
+  } ``__NM__``_req_t;                            \
+
+
+// Macro: APB_RESP_T
+// Purpose: Generates a packed struct for an APB response interface.
+// Usecase: Use this to define the slave-to-master response signals with configurable data width.
 `define APB_RESP_T(__NM__, __DW__)               \
   typedef struct packed {                        \
     logic                    pready;             \
     logic [  ``__DW__``-1:0] prdata;             \
     logic                    pslverr;            \
-} ``__NM__``_resp_t;                             \
+  } ``__NM__``_resp_t;                           \
 
 
 // Macro: APB_T
