@@ -29,11 +29,15 @@
 [`apb_memif`](document/interface/apb_memif.md)
 [`dummy_interface`](document/interface/dummy_interface.md)
 
+[`dummy_interface`](submodule/adn_common/document/interface/dummy_interface.md)
 
 ## INCLUDE
 [`apb/assign.svh`](document/include/apb/assign.md)
 [`apb/typedef.svh`](document/include/apb/typedef.md)
 
+[`pmi/assign.svh`](submodule/adn_common/document/include/pmi/assign.md)
+[`pmi/typedef.svh`](submodule/adn_common/document/include/pmi/typedef.md)
+[`vip/adn_common_tb_headers.sv`](submodule/adn_common/document/include/vip/adn_common_tb_headers.md)
 
 # [](https://github.com/squared-studio/documenter/blob/main/README.md)
 
