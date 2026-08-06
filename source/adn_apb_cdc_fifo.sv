@@ -42,12 +42,14 @@ module adn_apb_cdc_fifo
     input  logic         mst_clk_i,   // Master clock input
     input  logic         mst_arst_ni, // Master asynchronous reset (active low)
     input  apb_req_t     mst_req_i,   // APB request from master
+
     output apb_resp_t    mst_resp_o,  // APB response to master
 
     // Slave-side
+    output apb_req_t     slv_req_o,   // APB request to slave
+
     input  logic         slv_clk_i,   // Slave clock input
     input  logic         slv_arst_ni, // Slave asynchronous reset (active low)
-    output apb_req_t     slv_req_o,   // APB request to slave
     input  apb_resp_t    slv_resp_i   // APB response from slave
 );
 
