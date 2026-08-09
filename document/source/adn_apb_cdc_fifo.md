@@ -1,20 +1,26 @@
 # adn_apb_cdc_fifo (module)
 
-### Author : Annim Jannat (jannatannim@gmail.com)
+### Author: Annim Jannat (jannatannim@gmail.com)
 
-## TOP IO
+### Source: adn_apb_cdc_fifo.sv
+
+## Top IO
+
 <img src="./adn_apb_cdc_fifo_top.svg">
 
 <img src="./adn_apb_cdc_fifo_des.svg">
 
 ## Parameters
-|Name|Type|Dimension|Default Value|Description|
+
+|Name|Type|Dimension|Default|Description|
 |-|-|-|-|-|
 |apb_req_t|type||logic|APB request structure type|
 |apb_resp_t|type||logic|APB response structure type|
 |SYNC_STAGES|int||2|Number of synchronization stages for CDC|
 
+
 ## Ports
+
 |Name|Direction|Type|Dimension|Description|
 |-|-|-|-|-|
 |mst_clk_i|input|logic||Master clock input|
@@ -25,8 +31,9 @@
 |slv_clk_i|input|logic||Slave clock input|
 |slv_arst_ni|input|logic||Slave asynchronous reset (active low)|
 |slv_resp_i|input|apb_resp_t||APB response from slave|
-## Description
 
+
+## Description
 
 ### Purpose
 This module implements an asynchronous FIFO bridge for the APB (Advanced Peripheral Bus) protocol, enabling reliable data transfer between two clock domains (master and slave). It handles clock domain crossing (CDC) synchronization to ensure data integrity and timing closure when the APB master and slave operate on independent clock frequencies.
@@ -39,8 +46,4 @@ This module is primarily used in SoC designs where an APB master (e.g., a CPU or
 | 0.1      | 2026-08-04 | Annim Jannat    | Initial version                                        |
 | 1.0      | YYYY-MM-DD | Annim Jannat    | Stable release                                         |
 
-This file is part of ADN-VLSI/adn_apb
-<br>**Copyright (c) 2026 ADN Semiconductors**
-<br>**Licensed under the MIT License**
-<br>**See LICENSE file in the project root for full license information**
-
+Author : Annim Jannat (jannatannim@gmail.com)
