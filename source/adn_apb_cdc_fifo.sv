@@ -57,55 +57,115 @@ module adn_apb_cdc_fifo
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // LOCALPARAMS GENERATED
-  // Defines internal constants for FIFO depth and pointer widths
   //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  localparam int RESP_WIDTH = $bits(apb_resp_t);
+  localparam int REQ_WIDTH = $bits(apb_req_t);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // TYPEDEFS
-  // Custom structures for internal FIFO data packing
   //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  typedef enum logic [1:0] {IDLE, SETUP, ACCESS} state_e;
+  state_e    s_state, s_state_n;
+  apb_req_t  req_latch;
+
+  apb_req_t  req_dout;
+  apb_resp_t resp_dout;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGNALS
-  // Internal wires and registers for CDC logic, pointers, and FIFO storage
   //////////////////////////////////////////////////////////////////////////////////////////////////
+  logic      req_valid, req_ready;
+  logic      resp_valid;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // ASSIGNMENTS
-  // Combinational logic for APB handshake and status flags
   //////////////////////////////////////////////////////////////////////////////////////////////////
+  assign mst_resp_o.prdata  = resp_dout.prdata;
+  assign mst_resp_o.pslverr = resp_dout.pslverr;
+  assign mst_resp_o.pready  = resp_valid;
+
+
+  assign slv_req_o.paddr   = req_latch.paddr;
+  assign slv_req_o.pwdata  = req_latch.pwdata;
+  assign slv_req_o.pwrite  = req_latch.pwrite;
+  assign slv_req_o.pstrb   = req_latch.pstrb;
+  assign slv_req_o.pprot   = req_latch.pprot;
+  assign slv_req_o.psel    = (s_state != IDLE);
+  assign slv_req_o.penable = (s_state == ACCESS);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SUBMODULES
-  // Instances of synchronizers (e.g., Gray code converters, multi-stage flip-flops)
   //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // request FIFO
+
+  adn_common_cdc_fifo #(
+      .DATA_WIDTH (REQ_WIDTH),
+      .FIFO_SIZE  (FIFO_SIZE),
+      .SYNC_STAGES(SYNC_STAGES)
+  ) u_req_fifo (
+      .data_in_i       (mst_req_i),
+      .data_in_valid_i (mst_req_i.psel && mst_req_i.penable),
+      .data_in_ready_o (),
+      .data_in_arst_ni (mst_arst_ni),
+      .data_in_clk_i   (mst_clk_i),
+      .data_in_count_o (),
+      .data_out_o      (req_dout),
+      .data_out_valid_o(req_valid),
+      .data_out_ready_i(req_ready),
+      .data_out_arst_ni(slv_arst_ni),
+      .data_out_clk_i  (slv_clk_i),
+      .data_out_count_o()
+  );
+
+  // response FIFO
+
+  adn_common_cdc_fifo #(
+      .DATA_WIDTH (RESP_WIDTH),
+      .FIFO_SIZE  (FIFO_SIZE),
+      .SYNC_STAGES(SYNC_STAGES)
+  ) u_resp_fifo (
+      .data_in_i       (slv_resp_i),
+      .data_in_valid_i (s_state == ACCESS && slv_resp_i.pready),
+      .data_in_ready_o (),
+      .data_in_arst_ni (slv_arst_ni),
+      .data_in_clk_i   (slv_clk_i),
+      .data_in_count_o (),
+      .data_out_o      (resp_dout),
+      .data_out_valid_o(resp_valid),
+      .data_out_ready_i(1'b1),
+      .data_out_arst_ni(mst_arst_ni),
+      .data_out_clk_i  (mst_clk_i),
+      .data_out_count_o()
+  );
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SEQUENTIALS
-  // Clocked logic for FIFO read/write pointers and data buffer updates
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////
-  // INITIAL CHECKS
-  // Sanity checks for parameter configuration
-  //////////////////////////////////////////////////////////////////////////////////////////////////
+  assign req_ready = (s_state == IDLE) && req_valid;  // slave fsm
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////
-  // METHODS
-  // Functions for calculating Gray code or FIFO status
-  //////////////////////////////////////////////////////////////////////////////////////////////////
+  always_comb begin
+    s_state_n = s_state;
+    case (s_state)
+      IDLE:    s_state_n = req_ready ? SETUP  : IDLE;
+      SETUP:   s_state_n = ACCESS;
+      ACCESS:  s_state_n = slv_resp_i.pready ? IDLE   : ACCESS;
+      default: s_state_n = IDLE;
+    endcase
+  end
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////
-  // ASSERTIONS
-  // Formal properties to verify CDC constraints and FIFO overflow/underflow conditions
-  //////////////////////////////////////////////////////////////////////////////////////////////////
-
-`ifdef SIMULATION
-  initial begin
-    if (DATA_WIDTH > 2) begin
-      $display("\033[1;33m%m DATA_WIDTH\033[0m");
+  always_ff @(posedge slv_clk_i or negedge slv_arst_ni) begin
+    if (!slv_arst_ni) begin
+      s_state   <= IDLE;
+      req_latch <= '0;
+    end else begin
+      s_state <= s_state_n;
+      if (req_ready) req_latch <= req_dout;
     end
   end
-`endif  // SIMULATION
 
 endmodule
