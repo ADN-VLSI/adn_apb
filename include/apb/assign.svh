@@ -12,7 +12,7 @@ This file is primarily used in testbenches or top-level integration modules wher
 
 Author : Foez Ahmed (foez.official@gmail.com)
 This file is part of ADN-VLSI/adn_apb
-Copyright (c) __YEAR__ ADN-VLSI
+Copyright (c) 2026 ADN-VLSI
 Licensed under the MIT License
 See LICENSE file in the project root for full license information
 
