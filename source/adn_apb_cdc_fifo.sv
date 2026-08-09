@@ -103,7 +103,7 @@ module adn_apb_cdc_fifo
 
   adn_common_cdc_fifo #(
       .DATA_WIDTH (REQ_WIDTH),
-      .FIFO_SIZE  (FIFO_SIZE),
+      .FIFO_SIZE  (1),
       .SYNC_STAGES(SYNC_STAGES)
   ) u_req_fifo (
       .data_in_i       (mst_req_i),
@@ -124,7 +124,7 @@ module adn_apb_cdc_fifo
 
   adn_common_cdc_fifo #(
       .DATA_WIDTH (RESP_WIDTH),
-      .FIFO_SIZE  (FIFO_SIZE),
+      .FIFO_SIZE  (1),
       .SYNC_STAGES(SYNC_STAGES)
   ) u_resp_fifo (
       .data_in_i       (slv_resp_i),
