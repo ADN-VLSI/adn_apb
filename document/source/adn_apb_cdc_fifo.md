@@ -44,6 +44,6 @@ This module is primarily used in SoC designs where an APB master (e.g., a CPU or
 | REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
 |----------|------------|-----------------|--------------------------------------------------------|
 | 0.1      | 2026-08-04 | Annim Jannat    | Initial version                                        |
-| 1.0      | YYYY-MM-DD | Annim Jannat    | Stable release                                         |
+| 1.0      | 2026-08-13 | Annim Jannat    | Stable release                                         |
 
 Author : Annim Jannat (jannatannim@gmail.com)
