@@ -1,7 +1,8 @@
 /*
-@foez-bhai, write the purpose of this module in markdown format here. This is already in multi-line comment, so don't add any additional comment syntax.
+This module acts as a bridge between the APB (Advanced Peripheral Bus) and the PMI (Parallel Memory Interface) protocols. It translates APB read/write transactions into PMI requests, managing the handshake signals and state transitions required to ensure data integrity and protocol compliance.
 
-@foez-bhai, describe the use case of this module in markdown format here. This is already in multi-line comment, so don't add any additional comment syntax.
+### Use Case
+The `adn_apb_to_pmi` module is designed to interface standard APB-compliant peripherals or interconnects with memory-mapped components that utilize the PMI protocol. It is typically used in SoC designs where a control bus (APB) needs to access high-speed memory or custom hardware accelerators that do not natively support APB.
 
 | REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
 |----------|------------|-----------------|--------------------------------------------------------|
