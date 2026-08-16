@@ -2,6 +2,7 @@
 
 ## SOURCE
 [`adn_apb_cdc_fifo`](document/source/adn_apb_cdc_fifo.md)
+[`adn_apb_to_pmi`](document/source/adn_apb_to_pmi.md)
 [`dummy_rtl`](document/source/dummy_rtl.md)
 
 [`adn_common_address_decoder`](https://github.com/ADN-VLSI/adn_common/blob/main/document/source/adn_common_address_decoder.md)
