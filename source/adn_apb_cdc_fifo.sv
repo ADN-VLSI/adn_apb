@@ -9,7 +9,7 @@ This module is primarily used in SoC designs where an APB master (e.g., a CPU or
 | REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
 |----------|------------|-----------------|--------------------------------------------------------|
 | 0.1      | 2026-08-04 | Annim Jannat    | Initial version                                        |
-| 1.0      | YYYY-MM-DD | Annim Jannat    | Stable release                                         |
+| 1.0      | 2026-08-13 | Annim Jannat    | Stable release                                         |
 
 Author : Annim Jannat (jannatannim@gmail.com)
 This file is part of ADN-VLSI/adn_apb
@@ -19,14 +19,8 @@ See LICENSE file in the project root for full license information
 
 */
 
-// `include "include/apb/typedef.svh"
-// package apb_pkg;
-//  `APB_REQ_T(apb, 32, 32)
-//  `APB_RESP_T(apb, 32)
-// endpackage
-
 module adn_apb_cdc_fifo
-// import apb_pkg::*;
+
 #(
     // PARAMETERS
     parameter type apb_req_t   = logic, // APB request structure type
@@ -76,8 +70,10 @@ module adn_apb_cdc_fifo
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGNALS
   //////////////////////////////////////////////////////////////////////////////////////////////////
+
   logic      req_valid, req_ready;
   logic      resp_valid;
+  logic      psel_penable_q;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // ASSIGNMENTS
@@ -94,6 +90,7 @@ module adn_apb_cdc_fifo
   assign slv_req_o.pprot   = req_latch.pprot;
   assign slv_req_o.psel    = (s_state != IDLE);
   assign slv_req_o.penable = (s_state == ACCESS);
+  wire valid_push_pulse = (mst_req_i.psel && mst_req_i.penable) && !psel_penable_q;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SUBMODULES
@@ -107,7 +104,7 @@ module adn_apb_cdc_fifo
       .SYNC_STAGES(SYNC_STAGES)
   ) u_req_fifo (
       .data_in_i       (mst_req_i),
-      .data_in_valid_i (mst_req_i.psel && mst_req_i.penable),
+      .data_in_valid_i (valid_push_pulse),
       .data_in_ready_o (),
       .data_in_arst_ni (mst_arst_ni),
       .data_in_clk_i   (mst_clk_i),
@@ -145,6 +142,11 @@ module adn_apb_cdc_fifo
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SEQUENTIALS
   //////////////////////////////////////////////////////////////////////////////////////////////////
+
+always_ff @(posedge mst_clk_i or negedge mst_arst_ni) begin
+  if (!mst_arst_ni) psel_penable_q <= 1'b0;
+  else              psel_penable_q <= mst_req_i.psel && mst_req_i.penable;
+end
 
   assign req_ready = (s_state == IDLE) && req_valid;  // slave fsm
 
