@@ -41,8 +41,7 @@
 [`apb_memif`](document/interface/apb_memif.md)
 [`dummy_interface`](document/interface/dummy_interface.md)
 
-[`adn_PMI`](https://github.com/ADN-VLSI/adn_common/blob/main/document/interface/adn_PMI.md)
-[`dummy_interface`](https://github.com/ADN-VLSI/adn_common/blob/main/document/interface/dummy_interface.md)
+[`adn_common_pmi_if`](https://github.com/ADN-VLSI/adn_common/blob/main/document/interface/adn_common_pmi_if.md)
 
 ## INCLUDE
 [`apb/assign.svh`](document/include/apb/assign.md)
