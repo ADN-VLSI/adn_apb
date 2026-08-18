@@ -10,8 +10,9 @@
 
 | REVISION | DATE | AUTHOR | DESCRIPTION |
 |----------|------------|-----------------|--------------------------------------------------------|
-| 0.1 | 2026-08-06 | Shuparna Haque | Initial version |
-| 1.0 | 2026-08-06 | Shuparna Haque | Stable release |
+| 1.0 | 2026-08-06 | Shuparna Haque | Initial version                 |
+| 1.1 | 2026-08-06 | Shuparna Haque | Updated test cases and fixes    |
+| 1.2 | 2026-08-18 | Shuparna Haque  | Updated and finalized version  |
 
 Author : Shuparna Haque (sheikhshuparna3108@gmail.com)
 This file is part of ADN-VLSI/adn_apb
