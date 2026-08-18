@@ -275,9 +275,7 @@ endtask
     @(posedge mst_clk);
     mst_req.penable <= 1;
  
-    // Keep overwriting addr/data on further master edges without ever
-    // waiting for pready -- illegal APB master behavior on purpose, to
-    // see whether the bridge only latches the first one.
+
     for (int i = 1; i < NUM_ATTEMPTS; i++) begin
       @(posedge mst_clk);
       mst_req.paddr  <= addrs[i];
@@ -302,9 +300,6 @@ endtask
     slv_resp.pslverr <= 0;
     @(posedge slv_clk);
     slv_resp.pready  <= 0;
- 
-    // Watch for any *additional* transaction arriving on its own --
-    // that would mean more than one of our rapid writes got queued.
     seen_count = 1;
     repeat (10) begin
       @(posedge slv_clk);
