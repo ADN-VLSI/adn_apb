@@ -19,8 +19,8 @@ __GUARD_APB_TYPEDEF_SVH__
 |Name|Args|Description|Preview|
 |-|-|-|-|
 |APB_REQ_T|__NM__, __AW__, __DW__|Macro: APB_REQ_T Purpose: Generates a packed struct for an APB request interface. Usecase: Use this to define the master-to-slave request signals with configurable address and data widths.|`define APB_REQ_T(__NM__, __AW__, __DW__)         typedef struct packed {                         logic                    psel;                logic|
-|APB_RESP_T|__NM__, __DW__|Macro: APB_RESP_T Purpose: Generates a packed struct for an APB response interface. Usecase: Use this to define the slave-to-master response signals with configurable data width.|`define APB_RESP_T(__NM__, __DW__)                typedef struct packed {                         logic                    pready;              logic [  ``__DW_|
-|APB_T|__NM__, __AW__, __DW__|Macro: APB_T Purpose: Generates both request and response packed structs for an APB interface. Usecase: Use this to instantiate a complete APB interface pair (req/resp) with a single macro call, ensuring consistency across the design.|`define APB_T(__NM__, __AW__, __DW__)             `APB_REQ_T(``__NM__``, ``__AW__``, ``__DW__``)  `APB_RESP_T(``__NM__``, ``__DW__``)|
+|APB_RSP_T|__NM__, __DW__|Macro: APB_RSP_T Purpose: Generates a packed struct for an APB response interface. Usecase: Use this to define the slave-to-master response signals with configurable data width.|`define APB_RSP_T(__NM__, __DW__)                typedef struct packed {                         logic                    pready;              logic [  ``__DW__|
+|APB_T|__NM__, __AW__, __DW__|Macro: APB_T Purpose: Generates both request and response packed structs for an APB interface. Usecase: Use this to instantiate a complete APB interface pair (req/rsp) with a single macro call, ensuring consistency across the design.|`define APB_T(__NM__, __AW__, __DW__)             `APB_REQ_T(``__NM__``, ``__AW__``, ``__DW__``)  `APB_RSP_T(``__NM__``, ``__DW__``)|
 
 
 ## Description

@@ -15,7 +15,7 @@
 |Name|Type|Dimension|Default|Description|
 |-|-|-|-|-|
 |apb_req_t|type||logic|APB request structure type|
-|apb_resp_t|type||logic|APB response structure type|
+|apb_rsp_t|type||logic|APB response structure type|
 |SYNC_STAGES|int||2|Number of synchronization stages for CDC|
 
 
@@ -26,11 +26,11 @@
 |mst_clk_i|input|logic||Master clock input|
 |mst_arst_ni|input|logic||Master asynchronous reset (active low)|
 |mst_req_i|input|apb_req_t||APB request from master|
-|mst_resp_o|output|apb_resp_t||APB response to master|
+|mst_rsp_o|output|apb_rsp_t||APB response to master|
 |slv_req_o|output|apb_req_t||APB request to slave|
 |slv_clk_i|input|logic||Slave clock input|
 |slv_arst_ni|input|logic||Slave asynchronous reset (active low)|
-|slv_resp_i|input|apb_resp_t||APB response from slave|
+|slv_rsp_i|input|apb_rsp_t||APB response from slave|
 
 
 ## Description

@@ -3,7 +3,7 @@
 ## SOURCE
 [`adn_apb_cdc_fifo`](document/source/adn_apb_cdc_fifo.md)
 [`adn_apb_to_pmi`](document/source/adn_apb_to_pmi.md)
-[`dummy_rtl`](document/source/dummy_rtl.md)
+[`document/source/dummy_rtl.md)
 
 [`adn_common_address_decoder`](https://github.com/ADN-VLSI/adn_common/blob/main/document/source/adn_common_address_decoder.md)
 [`adn_common_bin_to_gray`](https://github.com/ADN-VLSI/adn_common/blob/main/document/source/adn_common_bin_to_gray.md)
@@ -38,7 +38,7 @@
 [`adn_common_valid_ready_checker`](https://github.com/ADN-VLSI/adn_common/blob/main/document/assertion/adn_common_valid_ready_checker.md)
 
 ## INTERFACE
-[`apb_memif`](document/interface/apb_memif.md)
+[`document/interface/apb_memif.md)
 [`dummy_interface`](document/interface/dummy_interface.md)
 
 [`adn_common_pmi_if`](https://github.com/ADN-VLSI/adn_common/blob/main/document/interface/adn_common_pmi_if.md)
