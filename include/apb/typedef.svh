@@ -35,23 +35,23 @@ See LICENSE file in the project root for full license information
   } ``__NM__``_req_t;                            \
 
 
-// Macro: APB_RESP_T
+// Macro: APB_RSP_T
 // Purpose: Generates a packed struct for an APB response interface.
 // Usecase: Use this to define the slave-to-master response signals with configurable data width.
-`define APB_RESP_T(__NM__, __DW__)               \
+`define APB_RSP_T(__NM__, __DW__)               \
   typedef struct packed {                        \
     logic                    pready;             \
     logic [  ``__DW__``-1:0] prdata;             \
     logic                    pslverr;            \
-  } ``__NM__``_resp_t;                           \
+  } ``__NM__``_rsp_t;                           \
 
 
 // Macro: APB_T
 // Purpose: Generates both request and response packed structs for an APB interface.
-// Usecase: Use this to instantiate a complete APB interface pair (req/resp) with a single macro call, ensuring consistency across the design.
+// Usecase: Use this to instantiate a complete APB interface pair (req/rsp) with a single macro call, ensuring consistency across the design.
 `define APB_T(__NM__, __AW__, __DW__)            \
   `APB_REQ_T(``__NM__``, ``__AW__``, ``__DW__``) \
-  `APB_RESP_T(``__NM__``, ``__DW__``)            \
+  `APB_RSP_T(``__NM__``, ``__DW__``)            \
 
 
 `endif
