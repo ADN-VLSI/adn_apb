@@ -13,9 +13,9 @@
 |Name|Type|Dimension|Default|Description|
 |-|-|-|-|-|
 |apb_req_t|type||logic|`APB_REQ_T`  generated struct|
-|apb_resp_t|type||logic|`APB_RESP_T` generated struct|
+|apb_rsp_t|type||logic|`APB_RSP_T` generated struct|
 |pmi_req_t|type||logic|`PMI_REQ_T`  generated struct|
-|pmi_resp_t|type||logic|`PMI_RESP_T` generated struct|
+|pmi_rsp_t|type||logic|`PMI_RSP_T` generated struct|
 
 
 ## Ports
@@ -25,9 +25,9 @@
 |clk_i|input|logic||PORTS ---------------- Global signals ----------------|
 |rst_ni|input|logic|||
 |apb_req_i|input|apb_req_t||---------------- APB slave port ----------------|
-|apb_resp_o|output|apb_resp_t|||
+|apb_rsp_o|output|apb_rsp_t|||
 |pmi_req_o|output|pmi_req_t||---------------- PMI master port ---------------|
-|pmi_resp_i|input|pmi_resp_t|||
+|pmi_rsp_i|input|pmi_rsp_t|||
 
 
 ## Description

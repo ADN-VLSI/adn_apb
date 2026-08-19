@@ -23,9 +23,9 @@ module adn_apb_to_pmi #(
     // PARAMETERS
 
     parameter type apb_req_t  = logic,  // `APB_REQ_T`  generated struct
-    parameter type apb_resp_t = logic,  // `APB_RESP_T` generated struct
+    parameter type apb_rsp_t = logic,  // `APB_RSP_T` generated struct
     parameter type pmi_req_t  = logic,  // `PMI_REQ_T`  generated struct
-    parameter type pmi_resp_t = logic   // `PMI_RESP_T` generated struct
+    parameter type pmi_rsp_t = logic   // `PMI_RSP_T` generated struct
 ) (
     // PORTS
     // ---------------- Global signals ----------------
@@ -34,11 +34,11 @@ module adn_apb_to_pmi #(
 
     // ---------------- APB slave port ----------------
     input  apb_req_t  apb_req_i,
-    output apb_resp_t apb_resp_o,
+    output apb_rsp_t apb_rsp_o,
 
     // ---------------- PMI master port ---------------
     output pmi_req_t  pmi_req_o,
-    input  pmi_resp_t pmi_resp_i
+    input  pmi_rsp_t pmi_rsp_i
 );
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,17 +67,17 @@ module adn_apb_to_pmi #(
     unique case (current_state)
       S_IDLE: begin
         if (apb_req_i.psel && apb_req_i.penable) begin
-          if (pmi_resp_i.mgnt) next_state = pmi_resp_i.mack ? S_IDLE : S_WAIT_ACK;
+          if (pmi_rsp_i.mgnt) next_state = pmi_rsp_i.mack ? S_IDLE : S_WAIT_ACK;
           else next_state = S_REQ;
         end
       end
 
       S_REQ: begin
-        if (pmi_resp_i.mgnt) next_state = pmi_resp_i.mack ? S_IDLE : S_WAIT_ACK;
+        if (pmi_rsp_i.mgnt) next_state = pmi_rsp_i.mack ? S_IDLE : S_WAIT_ACK;
       end
 
       S_WAIT_ACK: begin
-        if (pmi_resp_i.mack) next_state = S_IDLE;
+        if (pmi_rsp_i.mack) next_state = S_IDLE;
       end
 
       default: next_state = S_IDLE;
@@ -105,10 +105,10 @@ module adn_apb_to_pmi #(
 
   // ---- PMI response channel -> APB response phase ----
   always_comb begin
-    apb_resp_o = '0;
-    apb_resp_o.pready = pmi_resp_i.mack && ((current_state == S_WAIT_ACK) || (pmi_req_o.mreq && pmi_resp_i.mgnt));
-    apb_resp_o.prdata = pmi_resp_i.mrdata;  // valid per PR-11 when mack=1
-    apb_resp_o.pslverr = pmi_resp_i.mresp;  // 0 = OKAY, 1 = ERROR
+    apb_rsp_o = '0;
+    apb_rsp_o.pready = pmi_rsp_i.mack && ((current_state == S_WAIT_ACK) || (pmi_req_o.mreq && pmi_rsp_i.mgnt));
+    apb_rsp_o.prdata = pmi_rsp_i.mrdata;  // valid per PR-11 when mack=1
+    apb_rsp_o.pslverr = pmi_rsp_i.mrsp;  // 0 = OKAY, 1 = ERROR
   end
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ module adn_apb_to_pmi #(
   ap_stable_req_while_stalled :
   assert property (
     @(posedge clk_i) disable iff (!rst_ni)
-    (pmi_req_o.mreq && !pmi_resp_i.mgnt) |=>
+    (pmi_req_o.mreq && !pmi_rsp_i.mgnt) |=>
       $stable(
       pmi_req_o.maddr
   ) && $stable(
@@ -145,9 +145,9 @@ module adn_apb_to_pmi #(
   ap_pready_only_after_pmi_completion :
   assert property (
   @(posedge clk_i) disable iff (!rst_ni)
-  apb_resp_o.pready |->
+  apb_rsp_o.pready |->
     ((current_state == S_WAIT_ACK) ||
-     (pmi_req_o.mreq && pmi_resp_i.mgnt))
+     (pmi_req_o.mreq && pmi_rsp_i.mgnt))
 )
   else $error("adn_apb_to_pmi: pready asserted without a PMI completion");
 
@@ -175,15 +175,15 @@ module adn_apb_to_pmi #(
           )
       );
 
-    assert ($bits(apb_resp_o.prdata) == $bits(pmi_resp_i.mrdata))
+    assert ($bits(apb_rsp_o.prdata) == $bits(pmi_rsp_i.mrdata))
     else
       $error(
           "adn_apb_to_pmi: APB prdata width (%0d) != PMI mrdata width (%0d)",
           $bits(
-              apb_resp_o.prdata
+              apb_rsp_o.prdata
           ),
           $bits(
-              pmi_resp_i.mrdata
+              pmi_rsp_i.mrdata
           )
       );
 

@@ -24,7 +24,7 @@ module adn_apb_cdc_fifo
 #(
     // PARAMETERS
     parameter type apb_req_t   = logic, // APB request structure type
-    parameter type apb_resp_t  = logic, // APB response structure type
+    parameter type apb_rsp_t  = logic, // APB response structure type
     parameter int  SYNC_STAGES = 2      // Number of synchronization stages for CDC
 
     // LOCALPARAMS
@@ -37,14 +37,14 @@ module adn_apb_cdc_fifo
     input  logic         mst_arst_ni, // Master asynchronous reset (active low)
     input  apb_req_t     mst_req_i,   // APB request from master
 
-    output apb_resp_t    mst_resp_o,  // APB response to master
+    output apb_rsp_t    mst_rsp_o,  // APB response to master
 
     // Slave-side
     output apb_req_t     slv_req_o,   // APB request to slave
 
     input  logic         slv_clk_i,   // Slave clock input
     input  logic         slv_arst_ni, // Slave asynchronous reset (active low)
-    input  apb_resp_t    slv_resp_i   // APB response from slave
+    input  apb_rsp_t    slv_rsp_i   // APB response from slave
 );
 
 
@@ -53,7 +53,7 @@ module adn_apb_cdc_fifo
   // LOCALPARAMS GENERATED
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  localparam int RESP_WIDTH = $bits(apb_resp_t);
+  localparam int RSP_WIDTH = $bits(apb_rsp_t);
   localparam int REQ_WIDTH = $bits(apb_req_t);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,22 +65,22 @@ module adn_apb_cdc_fifo
   apb_req_t  req_latch;
 
   apb_req_t  req_dout;
-  apb_resp_t resp_dout;
+  apb_rsp_t rsp_dout;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGNALS
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
   logic      req_valid, req_ready;
-  logic      resp_valid;
+  logic      rsp_valid;
   logic      psel_penable_q;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // ASSIGNMENTS
   //////////////////////////////////////////////////////////////////////////////////////////////////
-  assign mst_resp_o.prdata  = resp_dout.prdata;
-  assign mst_resp_o.pslverr = resp_dout.pslverr;
-  assign mst_resp_o.pready  = resp_valid;
+  assign mst_rsp_o.prdata  = rsp_dout.prdata;
+  assign mst_rsp_o.pslverr = rsp_dout.pslverr;
+  assign mst_rsp_o.pready  = rsp_valid;
 
 
   assign slv_req_o.paddr   = req_latch.paddr;
@@ -120,18 +120,18 @@ module adn_apb_cdc_fifo
   // response FIFO
 
   adn_common_cdc_fifo #(
-      .DATA_WIDTH (RESP_WIDTH),
+      .DATA_WIDTH (RSP_WIDTH),
       .FIFO_SIZE  (1),
       .SYNC_STAGES(SYNC_STAGES)
-  ) u_resp_fifo (
-      .data_in_i       (slv_resp_i),
-      .data_in_valid_i (s_state == ACCESS && slv_resp_i.pready),
+  ) u_rsp_fifo (
+      .data_in_i       (slv_rsp_i),
+      .data_in_valid_i (s_state == ACCESS && slv_rsp_i.pready),
       .data_in_ready_o (),
       .data_in_arst_ni (slv_arst_ni),
       .data_in_clk_i   (slv_clk_i),
       .data_in_count_o (),
-      .data_out_o      (resp_dout),
-      .data_out_valid_o(resp_valid),
+      .data_out_o      (rsp_dout),
+      .data_out_valid_o(rsp_valid),
       .data_out_ready_i(1'b1),
       .data_out_arst_ni(mst_arst_ni),
       .data_out_clk_i  (mst_clk_i),
@@ -155,7 +155,7 @@ end
     case (s_state)
       IDLE:    s_state_n = req_ready ? SETUP  : IDLE;
       SETUP:   s_state_n = ACCESS;
-      ACCESS:  s_state_n = slv_resp_i.pready ? IDLE   : ACCESS;
+      ACCESS:  s_state_n = slv_rsp_i.pready ? IDLE   : ACCESS;
       default: s_state_n = IDLE;
     endcase
   end

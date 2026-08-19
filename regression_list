@@ -1,6 +1,1 @@
-ci_simulate dummy_tb default 0
-ci_simulate adn_apb_cdc_tb TC_001 100
-ci_simulate adn_apb_cdc_tb TC_002 100
-ci_simulate adn_apb_cdc_tb TC_003 100
-ci_simulate adn_apb_cdc_tb TC_004 100
-ci_simulate adn_apb_cdc_tb TC_005 100
+ci_simulate adn_apb_cdc_tb TC_ALL 0
