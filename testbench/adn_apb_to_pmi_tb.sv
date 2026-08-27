@@ -33,6 +33,7 @@ module adn_apb_to_pmi_tb;
 
   // bring in the testbench essentials functions and macros
   `include "vip/adn_common_tb_headers.sv"
+  `include "include/apb/typedef.svh"
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // LOCALPARAMS
@@ -47,20 +48,7 @@ module adn_apb_to_pmi_tb;
   // TYPEDEFS
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  typedef struct packed {
-    logic [AddrWidth-1:0] paddr;
-    logic                 pwrite;
-    logic [DataWidth-1:0] pwdata;
-    logic [StrbWidth-1:0] pstrb;
-    logic                 psel;
-    logic                 penable;
-  } apb_req_t;
-
-  typedef struct packed {
-    logic                 pready;
-    logic [DataWidth-1:0] prdata;
-    logic                 pslverr;
-  } apb_rsp_t;
+  `APB_T(apb, AddrWidth, DataWidth)
 
   typedef struct packed {
     logic [AddrWidth-1:0] maddr;
