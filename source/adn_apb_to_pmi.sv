@@ -4,10 +4,11 @@ This module acts as a bridge between the APB (Advanced Peripheral Bus) and the P
 ### Use Case
 The `adn_apb_to_pmi` module is designed to interface standard APB-compliant peripherals or interconnects with memory-mapped components that utilize the PMI protocol. It is typically used in SoC designs where a control bus (APB) needs to access high-speed memory or custom hardware accelerators that do not natively support APB.
 
-| REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
-|----------|------------|-----------------|--------------------------------------------------------|
-| 0.1      | 2026-08-13 | Annim Jannat    | Initial version                                        |
-| 1.0      | 2026-08-16 | Annim Jannat    | Stable release                                         |
+| REVISION | DATE       | AUTHOR                 | DESCRIPTION                                            |
+|----------|------------|------------------------|--------------------------------------------------------|
+| 0.1      | 2026-08-13 | Annim Jannat           | Initial version                                        |
+| 1.0      | 2026-08-16 | Annim Jannat           | Stable release                                         |
+| 1.1      | 2026-08-27 | Ahasan Ullah Khalid    | Stable release                                         |
 
 Author : Annim Jannat (jannatannim@gmail.com)
 This file is part of ADN-VLSI/adn_apb
@@ -108,7 +109,7 @@ module adn_apb_to_pmi #(
     apb_rsp_o = '0;
     apb_rsp_o.pready = pmi_rsp_i.mack && ((current_state == S_WAIT_ACK) || (pmi_req_o.mreq && pmi_rsp_i.mgnt));
     apb_rsp_o.prdata = pmi_rsp_i.mrdata;  // valid per PR-11 when mack=1
-    apb_rsp_o.pslverr = pmi_rsp_i.mrsp;  // 0 = OKAY, 1 = ERROR
+    apb_rsp_o.pslverr = pmi_rsp_i.mresp;  // 0 = OKAY, 1 = ERROR
   end
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
