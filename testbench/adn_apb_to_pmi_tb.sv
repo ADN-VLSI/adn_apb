@@ -33,7 +33,7 @@ module adn_apb_to_pmi_tb;
 
   // bring in the testbench essentials functions and macros
   `include "vip/adn_common_tb_headers.sv"
-  `include "include/apb/typedef.svh"
+  `include "apb/typedef.svh"
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // LOCALPARAMS
