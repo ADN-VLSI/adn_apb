@@ -37,9 +37,10 @@ This module acts as a bridge between the APB (Advanced Peripheral Bus) and the P
 ### Use Case
 The `adn_apb_to_pmi` module is designed to interface standard APB-compliant peripherals or interconnects with memory-mapped components that utilize the PMI protocol. It is typically used in SoC designs where a control bus (APB) needs to access high-speed memory or custom hardware accelerators that do not natively support APB.
 
-| REVISION | DATE       | AUTHOR          | DESCRIPTION                                            |
-|----------|------------|-----------------|--------------------------------------------------------|
-| 0.1      | 2026-08-13 | Annim Jannat    | Initial version                                        |
-| 1.0      | 2026-08-16 | Annim Jannat    | Stable release                                         |
+| REVISION | DATE       | AUTHOR                 | DESCRIPTION                                            |
+|----------|------------|------------------------|--------------------------------------------------------|
+| 0.1      | 2026-08-13 | Annim Jannat           | Initial version                                        |
+| 1.0      | 2026-08-16 | Annim Jannat           | Stable release                                         |
+| 1.1      | 2026-08-27 | Ahasan Ullah Khalid    | Stable release                                         |
 
 Author : Annim Jannat (jannatannim@gmail.com)
