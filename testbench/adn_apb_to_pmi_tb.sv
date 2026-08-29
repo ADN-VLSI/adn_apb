@@ -16,6 +16,7 @@
 |-----------|------------|---------------------|-------------------------------------------------------|
 | 0.1       | 2026-08-23 | Ahasan Ullah Khalid | Initial version                                       |
 | 1.0       | 2026-08-23 | Ahasan Ullah Khalid | Stable release                                        |
+| 1.1       | 2026-08-27 | Ahasan Ullah Khalid | Stable release                                        |
 
 Author : Ahasan Ullah Khalid (aukhalid02@gmail.com)
 This file is part of ADN-VLSI/adn_apb
@@ -33,6 +34,8 @@ module adn_apb_to_pmi_tb;
 
   // bring in the testbench essentials functions and macros
   `include "vip/adn_common_tb_headers.sv"
+  `include "apb/typedef.svh"
+  `include "pmi/typedef.svh"
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // LOCALPARAMS
@@ -47,35 +50,8 @@ module adn_apb_to_pmi_tb;
   // TYPEDEFS
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  typedef struct packed {
-    logic [AddrWidth-1:0] paddr;
-    logic                 pwrite;
-    logic [DataWidth-1:0] pwdata;
-    logic [StrbWidth-1:0] pstrb;
-    logic                 psel;
-    logic                 penable;
-  } apb_req_t;
-
-  typedef struct packed {
-    logic                 pready;
-    logic [DataWidth-1:0] prdata;
-    logic                 pslverr;
-  } apb_rsp_t;
-
-  typedef struct packed {
-    logic [AddrWidth-1:0] maddr;
-    logic                 mwe;
-    logic [DataWidth-1:0] mwdata;
-    logic [StrbWidth-1:0] mstrb;
-    logic                 mreq;
-  } pmi_req_t;
-
-  typedef struct packed {
-    logic                 mgnt;
-    logic                 mack;
-    logic [DataWidth-1:0] mrdata;
-    logic                 mrsp;
-  } pmi_rsp_t;
+  `APB_T(apb, AddrWidth, DataWidth)
+  `PMI_T(pmi, AddrWidth, DataWidth)
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // SIGNALS
@@ -188,7 +164,7 @@ module adn_apb_to_pmi_tb;
           // Immediate ACK
           pmi_rsp.mack   <= 1'b1;
           pmi_rsp.mrdata <= rdata;
-          pmi_rsp.mrsp   <= resp_err;
+          pmi_rsp.mresp  <= resp_err;
           @(posedge clk);
           pmi_rsp <= '0;
         end else begin
@@ -197,7 +173,7 @@ module adn_apb_to_pmi_tb;
           repeat (ack_delay - 1) @(posedge clk);
           pmi_rsp.mack   <= 1'b1;
           pmi_rsp.mrdata <= rdata;
-          pmi_rsp.mrsp   <= resp_err;
+          pmi_rsp.mresp  <= resp_err;
           @(posedge clk);
           pmi_rsp <= '0;
         end
@@ -311,7 +287,7 @@ module adn_apb_to_pmi_tb;
     if (slverr === 1'b1) note_case(1);
     else begin
       note_case(0);
-      $display("[%s] [FAIL] Expected pslverr=1 on PMI mrsp=1 error! [%0t]", test_name, $realtime);
+      $display("[%s] [FAIL] Expected pslverr=1 on PMI mresp=1 error! [%0t]", test_name, $realtime);
     end
   endtask
 
